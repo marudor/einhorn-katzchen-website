@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   var e1 = [];
   episodes = _.each(episodes, e => { 
     if (e.indexOf('.json') !== -1) {
-      e1.push(e.file);
+      e1.push(require('../../episodes/'+e).file);
     }
   });
   res.render('index', {
@@ -24,5 +24,5 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/episodes', express.static(path.resolve('../episodes/pictures')));
+app.use('/episodes', express.static(path.resolve('../episodes')));
 app.use('/lib', express.static(path.resolve('lib')));
