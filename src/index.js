@@ -1,6 +1,7 @@
 const express = require('express'),
       app = express(),
       fs = require('fs'),
+      _ = require('lodash'),
       path = require('path'),
       expressHbs = require('express3-handlebars');
 
@@ -11,11 +12,14 @@ app.listen(61182);
 
 app.get('/', (req, res) => {
   var episodes = fs.readdirSync('../episodes');
+  _.map(episodes, e => {
+    return require('../episodes/'+e.file);
+  });
   res.render('index', {
     episodes: episodes
   });
 });
 
 
-app.use('/episodes', express.static(path.resolve('../episodes')));
+app.use('/episodes', express.static(path.resolve('../episodes/pictures')));
 app.use('/lib', express.static(path.resolve('lib')));
