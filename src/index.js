@@ -12,7 +12,7 @@ app.listen(61182);
 
 app.get('/', (req, res) => {
   var episodes = fs.readdirSync('../episodes');
-  _.map(episodes, e => {
+  episodes = _.map(episodes, e => {
     return require('../episodes/'+e.file);
   });
   res.render('index', {
