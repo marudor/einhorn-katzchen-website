@@ -12,7 +12,9 @@ app.listen(61182);
 
 app.get('/', (req, res) => {
   var episodes = fs.readdirSync('../episodes');
-  episodes = _.filter(episodes, e => e.endsWith('json'));
+  episodes = _.filter(episodes, function(e) { 
+    return e.endsWith('json');
+  });
   episodes = _.map(episodes, function(e) {
     return require('episodes/'+e.file);
   });
