@@ -12,8 +12,9 @@ app.listen(61182);
 
 app.get('/', (req, res) => {
   var episodes = fs.readdirSync('../episodes');
-  episodes = _.map(episodes, e => {
-    return require('../episodes/'+e.file);
+  episodes = _.filter(episodes, e => e.endsWith('json'));
+  episodes = _.map(episodes, function(e) {
+    return require('episodes/'+e.file);
   });
   res.render('index', {
     episodes: episodes
