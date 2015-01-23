@@ -12,14 +12,14 @@ app.listen(61182);
 
 app.get('/', (req, res) => {
   var episodes = fs.readdirSync('../episodes');
-  episodes = _.filter(episodes, function(e) { 
-    return e.endsWith('json');
-  });
-  episodes = _.map(episodes, function(e) {
-    return require('episodes/'+e.file);
+  var e1 = [];
+  episodes = _.each(episodes, e => { 
+    if (e.indexOf('.json') !== -1) {
+      e1.push(e.file);
+    }
   });
   res.render('index', {
-    episodes: episodes
+    episodes: e1
   });
 });
 
