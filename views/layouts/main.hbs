@@ -1,7 +1,7 @@
 <html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
-  <title>Einhorn Kätzchen</title>
+  <title>Einhornkätzchen</title>
   <style>
 
     /* Demo styles */
@@ -14,37 +14,82 @@
     .cred{margin-top:20px;font-size:11px;}
 
     #galleria{height:100%;width:100%}
-    
+
     .galleria-theme-classic .galleria-info-text {
       padding: 5px 15px 5px 5px;
       display: block;
     }
-    
+
     .galleria-theme-classic .galleria-info {
       top: 0;
       transform: translateX(-50%);
       width: initial;
       left:50%;
     }
-    
+
     .galleria-theme-classic .galleria-info-link {
       display: none;
     }
-    
+
     .galleria-theme-classic .galleria-info-close {
       display: block;
     }
-    
+
     .galleria-theme-classic .galleria-info-title {
       margin-bottom: 0;
     }
 
+    .galleria-theme-classic .galleria-stage, .galleria-thumbnails-container, .fa {
+      overflow: visible;
+      transition: 800ms, linear;
+    }
+
+
+    .galleria-theme-classic.full .galleria-thumbnails-container {
+      transform: translateY(50px);
+    }
+
+    .galleria-theme-classic.full .galleria-stage .fa {
+      transform: rotate(180deg) translate(50%, -50px);
+    }
+
+    #date {
+      position: absolute;
+      font: bold 12px/1.1 arial,sans-serif;
+      top: 0;
+      right: 0;
+      z-index: 5;
+      color: white;
+      margin: 15px;
+    }
+
+    .galleria-theme-classic .galleria-stage .fa {
+      position: absolute;
+      bottom: 0;
+      color: white;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: -10px;
+      z-index:5;
+      cursor: pointer;
+      opacity: 0.4;
+    }
+
+    .galleria-theme-classic img {
+      width: auto!important;
+      left: 50%!important;
+      transform: translateX(-50%)!important;
+    }
+
   </style>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
   <script src="/lib/galleria-1.4.2.min.js"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   </head>
 <body>
   {{{body}}}
+
+  <div id="date"></div>
 
   <script>
 
@@ -56,8 +101,8 @@ function calcIndex() {
   var i = parseInt(location.hash.substr(1));
   if (isNaN(i) || i < 0 || i > {{episodes.length}}) {
     i = {{episodes.length}};
-  }
-  return i;
+}
+return i;
 }
 
 var index = calcIndex()-1;
@@ -93,7 +138,57 @@ function patchNav(old) {
   }
 }
 
+
+var animateOpt = {
+  duration: 400,
+  specialEasing: {
+    height: 'linear',
+    marginBottom: 'linear',
+    'margin-bottom': 'linear'
+  }
+};
+
+function getCorrectSize(reverse) {
+  var condition = $('.galleria-theme-classic').hasClass('full');
+  condition = reverse ? !condition : condition;
+  if (condition) {
+    return (parseInt($('.galleria-stage').css('height'))+50)+'px';
+  } else {
+    return $('.galleria-stage').css('height');
+  }
+}
+
+function fixImageSize() {
+  setTimeout(function() {
+    var size = getCorrectSize();
+    $('.galleria-images .galleria-image').css('height',size);
+    $('.galleria-images .galleria-image img').css('height',size);
+  }, 150);
+}
+
 Galleria.ready(function(options) {
+  var dateDiv = $('#date');
+  $('.galleria-stage').append('<i class="fa fa-angle-double-down"></i>');
+  $('.galleria-theme-classic .fa-angle-double-down').on('click', function() {
+    var theme = $('.galleria-theme-classic');
+    var size = getCorrectSize(true);
+    if (theme.hasClass('full')) {
+      $('.galleria-stage .galleria-counter').animate({
+        marginBottom: 0
+      }, animateOpt);
+    } else {
+      $('.galleria-stage .galleria-counter').animate({
+        marginBottom: '-50px'
+      }, animateOpt);
+    }
+    $('.galleria-images .galleria-image').animate({
+      height: size
+    }, animateOpt);
+    $('.galleria-images .galleria-image img').animate({
+      height: size
+    }, animateOpt);
+    theme.toggleClass('full');
+  });
   gal = this;
   this.prev = patchNav(this.prev.bind(this));
   this.next = patchNav(this.next.bind(this));
@@ -105,8 +200,11 @@ Galleria.ready(function(options) {
       gal.toggleFullscreen();
     }
   });
+  this.bind('fullscreen_enter', fixImageSize);
+  this.bind('fullscreen_exit', fixImageSize);
   this.bind("loadfinish", dblclick);
   this.bind('loadstart', function(e) {
+    dateDiv.text($(e.galleriaData.original).data('date'));
     window.onhashchange = null;
     location.hash='#'+parseInt(e.index+1);
   });

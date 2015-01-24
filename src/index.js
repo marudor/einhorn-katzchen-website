@@ -3,7 +3,8 @@ const express = require('express'),
       fs = require('fs'),
       _ = require('lodash'),
       path = require('path'),
-      expressHbs = require('express3-handlebars');
+      moment = require('moment'),
+      expressHbs = require('express-handlebars');
 
 app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
       var m = require('../../episodes/'+e);
       m.text = m.text.replace(m.rawTweet.entities.media[0].url,'');
       m.text = m.text.replace('#Einhornkätzchen', 'Einhornkätzchen');
+      m.date = moment(m.rawTweet.created_at).format('DD.MM.YYYY');
       e1.push(m);
     }
   });
