@@ -23,7 +23,7 @@ function addRSS(tweet) {
   tweet.date = moment(tweet.rawTweet.created_at).format('DD.MM.YYYY');
   feed.item({
     title: tweet.text,
-    description: '<img src="http://einhornkatzchen.de/episodes/pictures/"'+tweet.file+'.png',
+    description: '<img src="http://einhornkatzchen.de/episodes/pictures/'+tweet.file+'">',
     url: 'einhornkatzchen.de',
     author: '@sweet_sacura',
     date: moment(tweet.rawTweet.created_at).toDate()
