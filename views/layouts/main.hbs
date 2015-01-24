@@ -5,7 +5,7 @@
   <style>
 
     /* Demo styles */
-    html,body{width:100%;height:100%;background:#222;margin:0;}
+    html,body{width:100%;height:100%;background:#222;margin:0;overflow:hidden}
     body{border-top:4px solid #000;}
     .content{width:100%;height:100%;color:#777;font:12px/1.4 "helvetica neue",arial,sans-serif;margin:20px auto;}
     h1{font-size:12px;font-weight:normal;color:#ddd;margin:0;}
@@ -14,6 +14,30 @@
     .cred{margin-top:20px;font-size:11px;}
 
     #galleria{height:100%;width:100%}
+    
+    .galleria-theme-classic .galleria-info-text {
+      padding: 5px 15px 5px 5px;
+      display: block;
+    }
+    
+    .galleria-theme-classic .galleria-info {
+      top: 0;
+      transform: translateX(-50%);
+      width: initial;
+      left:50%;
+    }
+    
+    .galleria-theme-classic .galleria-info-link {
+      display: none;
+    }
+    
+    .galleria-theme-classic .galleria-info-close {
+      display: block;
+    }
+    
+    .galleria-theme-classic .galleria-info-title {
+      margin-bottom: 0;
+    }
 
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
@@ -27,8 +51,65 @@
 // Load the classic theme
 Galleria.loadTheme('/lib/galleria.classic.min.js');
 
+
+function calcIndex() {
+  var i = parseInt(location.hash.substr(1));
+  if (isNaN(i) || i < 0 || i > {{episodes.length}}) {
+    i = {{episodes.length}};
+  }
+  return i;
+}
+
+var index = calcIndex()-1;
 Galleria.configure({
-  show: {{episodes.length}}-1
+  show: index
+});
+
+
+
+
+function hashNav(e) {
+  var i = calcIndex();
+  location.hash='#'+i;
+  i-=1;
+  if (gal._active !== i) {
+    gal.show(i);
+  }
+}
+
+function dblclick(e) {
+  $(e.imageTarget).on('dblclick', function() {
+    gal.toggleFullscreen();
+  });
+  setTimeout(function() {
+    window.onhashchange = hashNav;
+  },50);
+}
+
+function patchNav(old) {
+  return function() {
+    window.onhashchange = null;
+    old();
+  }
+}
+
+Galleria.ready(function(options) {
+  gal = this;
+  this.prev = patchNav(this.prev.bind(this));
+  this.next = patchNav(this.next.bind(this));
+  $('.galleria-info-text').off('click');
+  this.attachKeyboard({
+    left: this.prev,
+    right: this.next,
+    13: function() {
+      gal.toggleFullscreen();
+    }
+  });
+  this.bind("loadfinish", dblclick);
+  this.bind('loadstart', function(e) {
+    window.onhashchange = null;
+    location.hash='#'+parseInt(e.index+1);
+  });
 });
 
 // Initialize Galleria

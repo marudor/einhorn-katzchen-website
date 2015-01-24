@@ -15,7 +15,10 @@ app.get('/', (req, res) => {
   var e1 = [];
   episodes = _.each(episodes, e => { 
     if (e.indexOf('.json') !== -1) {
-      e1.push(require('../../episodes/'+e).file);
+      var m = require('../../episodes/'+e);
+      m.text = m.text.replace(m.rawTweet.entities.media[0].url,'');
+      m.text = m.text.replace('#Einhornkätzchen', 'Einhornkätzchen');
+      e1.push(m);
     }
   });
   res.render('index', {
