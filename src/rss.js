@@ -17,14 +17,14 @@ var feed = new rss({
 var xml;
 var oldLength = 0;
 
-function addRSS(tweet) {
+function addRSS(tweet, index) {
   tweet.text = tweet.text.replace(tweet.rawTweet.entities.media[0].url,'');
   tweet.text = tweet.text.replace('#Einhornkätzchen', 'Einhornkätzchen');
   tweet.date = moment(tweet.rawTweet.created_at).format('DD.MM.YYYY');
   feed.item({
     title: tweet.text,
     description: '<img src="http://einhornkatzchen.de/episodes/pictures/'+tweet.file+'">',
-    url: 'einhornkatzchen.de',
+    url: 'einhornkatzchen.de/#'+index,
     author: '@sweet_sacura',
     date: moment(tweet.rawTweet.created_at).toDate()
   });
@@ -35,9 +35,10 @@ export function rssFeed() {
   var items = fs.readdirSync('../episodes');
   if (items.length > oldLength) {
     oldLength = items.length;
+    var i = 1;
     _.each(items, item => {
       if (item.indexOf('.json') !== -1) {
-        addRSS(require('../../episodes/'+item));
+        addRSS(require('../../episodes/'+item), i++);
       }
     });
   }
