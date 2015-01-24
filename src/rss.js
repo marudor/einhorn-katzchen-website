@@ -8,8 +8,8 @@ const rss = require('rss'),
 var feed = new rss({
   title: 'Einhornkätzchen',
   description: 'Just a kitten with a horn',
-  feed_url: 'einhornkatzchen.de/rss',
-  site_url: 'einhornkatzchen.de',
+  feed_url: 'einhornkaetzchen.de/rss',
+  site_url: 'einhornkaetzchen.de',
   copyright: 'All content owned by @sweet_sacura',
   webMaster: '@marudor'
 });
@@ -23,8 +23,8 @@ function addRSS(tweet, index) {
   tweet.date = moment(tweet.rawTweet.created_at).format('DD.MM.YYYY');
   feed.item({
     title: tweet.text,
-    description: '<img src="http://einhornkatzchen.de/episodes/pictures/'+tweet.file+'">',
-    url: 'einhornkatzchen.de/#'+index,
+    description: '<img src="http://einhornkaetzchen.de/episodes/pictures/'+tweet.file+'">',
+    url: 'einhornkaetzchen.de/#'+index,
     author: '@sweet_sacura',
     date: moment(tweet.rawTweet.created_at).toDate()
   });
