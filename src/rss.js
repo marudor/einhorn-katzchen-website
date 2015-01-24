@@ -34,13 +34,16 @@ function addRSS(tweet, index) {
 export function rssFeed() {
   var items = fs.readdirSync('../episodes');
   if (items.length > oldLength) {
-    oldLength = items.length;
     var i = 1;
     _.each(items, item => {
-      if (item.indexOf('.json') !== -1) {
-        addRSS(require('../../episodes/'+item), i++);
+      if (i > oldLength) {
+        if (item.indexOf('.json') !== -1) {
+          addRSS(require('../../episodes/'+item), i);
+        }
+        i+=1;
       }
     });
+    oldLength = items.length;
   }
 
   if (!xml) {
