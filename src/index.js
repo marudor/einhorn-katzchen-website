@@ -1,3 +1,5 @@
+import {rssFeed} from './rss';
+
 const express = require('express'),
       app = express(),
       fs = require('fs'),
@@ -31,3 +33,7 @@ app.get('/', (req, res) => {
 
 app.use('/episodes', express.static(path.resolve('../episodes')));
 app.use('/lib', express.static(path.resolve('lib')));
+app.get('/rss', (req, res) => {
+  res.set('Content-Type', 'application/xml');
+  res.send(rssFeed());
+});

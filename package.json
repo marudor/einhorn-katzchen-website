@@ -10,7 +10,8 @@
     "gulp-load-plugins": "^0.8.0",
     "gulp-traceur": "^0.15.0",
     "lodash": "^2.4.1",
-    "moment": "^2.9.0"
+    "moment": "^2.9.0",
+    "rss": "^1.1.1"
   },
   "devDependencies": {},
   "author": "marudor",
