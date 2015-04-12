@@ -3,6 +3,6 @@ var gulp = require('gulp'),
 
 gulp.task('javascript', function() {
   gulp.src('src/**/*.js')
-  .pipe(plugins.traceur())
+  .pipe(plugins.babel())
   .pipe(gulp.dest('dist/'));
 });

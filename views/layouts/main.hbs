@@ -14,7 +14,7 @@
     .cred{margin-top:20px;font-size:11px;}
 
     #galleria{height:100%;width:100%}
-    
+
     .galleria-stage {
       left: 0!important;
       right 0!important;
@@ -88,6 +88,7 @@
 
   </style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/galleria/1.4.2/galleria.min.js"></script>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   </head>
@@ -98,6 +99,7 @@
 
   <script>
 
+$('img').lazyload();
 // Load the classic theme
 Galleria.loadTheme('/lib/galleria.classic.min.js');
 
