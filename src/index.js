@@ -3,6 +3,7 @@ import {rssFeed} from './rss';
 const express = require('express'),
       app = express(),
       fs = require('fs'),
+      st = require('st'),
       _ = require('lodash'),
       path = require('path'),
       moment = require('moment'),
@@ -38,9 +39,14 @@ app.get('/', (req, res) => {
   });
 });
 
-
-app.use('/episodes', express.static(path.resolve('../einhorn-kaetzchen/episodes')));
-app.use('/lib', express.static(path.resolve('lib')));
+app.use(st({
+  path: path.resolve('../einhorn-kaetzchen/episodes'),
+  url: '/episodes'
+}));
+app.use(st({
+  path: path.resolve('lib'),
+  url: '/lib'
+}));
 app.get('/rss', (req, res) => {
   res.set('Content-Type', 'application/xml');
   res.send(rssFeed());
