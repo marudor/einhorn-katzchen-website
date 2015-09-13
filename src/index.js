@@ -1,6 +1,7 @@
 import {rssFeed} from './rss';
 
 const express = require('express'),
+      expressThumbnail = require('express-thumbnail'),
       app = express(),
       fs = require('fs'),
       st = require('st'),
@@ -9,8 +10,9 @@ const express = require('express'),
       moment = require('moment'),
       expressHbs = require('express-handlebars');
 
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'main.hbs'}));
+app.engine('hbs', expressHbs({extname: 'hbs', defaultLayout: 'main.hbs'}));
 app.set('view engine', 'hbs');
+app.use(expressThumbnail.register(path.resolve('../einhorn-kaetzchen/episodes/pictures')));
 app.listen(62601);
 
 

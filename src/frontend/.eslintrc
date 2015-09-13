@@ -13,7 +13,8 @@
   "globals": {
     "global": false,
     "_": false,
-    "images": false
+    "images": false,
+    "flattrFoo": false
   },
   "rules": {
     "no-alert": 2,
