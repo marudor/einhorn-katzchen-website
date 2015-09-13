@@ -39,7 +39,7 @@ export function rssFeed() {
     _.each(items, item => {
       if (i > oldLength) {
         if (item.indexOf('.json') !== -1) {
-          addRSS(require('../einhorn-kaetzchen/episodes/'+item), i);
+          addRSS(require(path.resolve('../einhorn-kaetzchen/episodes/'+item)), i);
         }
         i+=1;
       }
