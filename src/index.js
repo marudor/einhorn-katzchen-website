@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   });
   episodes = _.without(episodes, undefined);
   _.each(episodes, m => {
-	  m.timestamp = moment(m.rawTweet.created_at);
+	  m.timestamp = moment(String(m.rawTweet.created_at));
   });
   episodes = _.sortBy(episodes, 'timestamp');
 

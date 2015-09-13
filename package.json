@@ -4,16 +4,17 @@
   "description": "",
   "main": "launch.js",
   "scripts": {
-    "update": "git pull && gulp && webpack -p && pm2 restart 0"
+    "update": "git pull && npm run build && pm2 restart 0",
+    "backend": "cd src/ && babel -d ../dist/ *.js",
+    "frontend": "webpack -p",
+    "build": "npm run backend && npm run frontend",
+    "dev": "((cd src/ && babel -d ../dist/ *.js --watch) &) && (webpack --watch &) && node launch.js"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "express": "^4.11.0",
     "express-handlebars": "^1.1.0",
     "express-thumbnail": "^0.1.2",
-    "gulp": "^3.8.10",
-    "gulp-babel": "^5.1.0",
-    "gulp-load-plugins": "^0.8.0",
     "lodash": "^2.4.1",
     "moment": "^2.9.0",
     "radium": "^0.13.8",
@@ -30,7 +31,6 @@
     "eslint": "^1.3.1",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^3.3.1",
-    "json-loader": "^0.5.2",
     "style-loader": "^0.12.3",
     "webpack": "^1.12.1"
   },
