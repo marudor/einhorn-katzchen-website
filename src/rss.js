@@ -32,7 +32,7 @@ function addRSS(tweet, index) {
 }
 
 export function rssFeed() {
-  var items = fs.readdirSync('../einhorn-kaetzchen/episodes');
+  var items = fs.readdirSync(path.resolve('../einhorn-kaetzchen/episodes'));
   if (items.length > oldLength) {
     var i = 1;
     _.each(items, item => {
