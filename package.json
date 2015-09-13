@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "launch.js",
+  "scripts": {
+    "update": "git pull && gulp && webpack -p && pm2 restart 0"
+  },
   "dependencies": {
     "babel-runtime": "^5.8.20",
     "express": "^4.11.0",
