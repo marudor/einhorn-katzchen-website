@@ -19,10 +19,13 @@ export default {
     display: 'flex',
     flex: '1 1 0'
   },
-  '.image-gallery-slide img': {
-    height: 'initial',
-    width: 'initial',
-    objectFit: 'contain'
+  '.image-gallery-slide': {
+    transition: 'none',
+    img: {
+      height: 'initial',
+      width: 'initial',
+      objectFit: 'contain'
+    }
   },
   '.image-gallery-slide.center': {
     display: 'flex',
