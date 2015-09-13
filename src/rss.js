@@ -3,7 +3,8 @@
 const rss = require('rss'),
       moment = require('moment'),
       fs = require('fs'),
-      _ = require('lodash');
+      _ = require('lodash'),
+      path = require('path');
 
 var feed = new rss({
   title: 'Einhornkätzchen',
