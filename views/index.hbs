@@ -1,12 +1,11 @@
-   <div id="galleria">
-    {{#each episodes}}
-    <a href="/episodes/pictures/{{this.file}}">
-        <img
-             src="/episodes/pictures/{{this.file}}",
-             data-big="/episodes/pictures/{{this.file}}"
-             data-title="{{this.text}}"
-             data-date="{{this.date}}"
-             >
-    </a>
-    {{/each}}
-</div>
+<script>
+var images = [];
+{{#each episodes}}
+images.push({
+  original: '/episodes/pictures/{{this.file}}',
+  thumbnail: '/episodes/pictures/{{this.file}}',
+  text: `{{this.text}}`
+});
+{{/each}}
+</script>
+<div id="main"></div>

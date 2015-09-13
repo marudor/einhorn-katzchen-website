@@ -14,11 +14,11 @@ app.listen(62601);
 
 
 app.get('/', (req, res) => {
-  var episodes = fs.readdirSync('../episodes');
+  var episodes = fs.readdirSync('../einhorn-kaetzchen/episodes');
   var e1 = [];
   episodes = _.map(episodes, e => {
 	  if (e.indexOf('.json') !== -1) {
-	  	return require('../../episodes/'+e);
+	  	return require('../../einhorn-kaetzchen/episodes/'+e);
 	}
   });
   episodes = _.without(episodes, undefined);
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   });
   episodes = _.sortBy(episodes, 'timestamp');
 
-  _.each(episodes, m => { 
+  _.each(episodes, m => {
       m.text = m.text.replace(m.rawTweet.entities.media[0].url,'');
       m.text = m.text.replace('#Einhornkätzchen', 'Einhornkätzchen');
       m.date = m.timestamp.format('DD.MM.YYYY HH:mm');
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/episodes', express.static(path.resolve('../episodes')));
+app.use('/episodes', express.static(path.resolve('../einhorn-kaetzchen/episodes')));
 app.use('/lib', express.static(path.resolve('lib')));
 app.get('/rss', (req, res) => {
   res.set('Content-Type', 'application/xml');
