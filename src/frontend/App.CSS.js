@@ -7,32 +7,24 @@ export default {
     display: 'flex',
     flexDirection: 'column'
   },
-  '.image-gallery-content': {
-    display: 'flex',
-    flex: '1 1 0'
-  },
-  '.image-gallery-content > div': {
-    display: 'flex',
-    flex: '1 1 0'
-  },
-  '.image-gallery-slides': {
-    display: 'flex',
-    flex: '1 1 0'
-  },
   '.image-gallery-slide': {
     transition: 'none',
     img: {
-      height: 'initial',
-      width: 'initial',
-      objectFit: 'contain'
+      flex: '1 1 0',
+      objectFit: 'scale-down'
+    },
+    '&.center': {
+      display: 'flex',
+      flex: '1 1 0'
     }
   },
-  '.image-gallery-slide.center': {
-    display: 'flex',
-    justifyContent: 'center'
-  },
   '.image-gallery-thumbnails': {
+    flexShrink: 0,
     background: 'inherit',
     padding: 0
+  },
+  '.image-gallery-content, .image-gallery-content > div, .image-gallery-slides': {
+    display: 'flex',
+    flex: '1 1 0'
   }
 };
