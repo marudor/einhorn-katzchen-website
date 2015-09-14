@@ -32,9 +32,9 @@ app.get('/', (req, res) => {
 
   _.each(episodes, m => {
       m.text = m.text.replace(m.rawTweet.entities.media[0].url,'');
-      m.text = m.text.replace('#Einhornkätzchen', 'Einhornkätzchen');
-      m.text = m.text.replace('\n', '  ');
-      m.text = m.text.replace('\r\n', '  ');
+      m.text = m.text.replace(/#Einhornkätzchen/g, 'Einhornkätzchen');
+      m.text = m.text.replace(/\n/g, '  ');
+      m.text = m.text.replace(/\r\n/g, '  ');
       m.date = m.timestamp.format('DD.MM.YYYY HH:mm');
       e1.push(m);
   });

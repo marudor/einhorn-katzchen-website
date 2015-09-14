@@ -17,13 +17,18 @@ export default class App extends React.Component {
       border: '1px solid white',
       borderRadius: 5,
       color: 'white',
-      fontSize: 'smaller',
-      maxWidth: '35%',
-      padding: 3,
+      fontSize: 'small',
+      maxWidth: '30%',
       position: 'absolute',
       right: 0,
       top: 0,
       zIndex: 5
+    },
+    innerText: {
+      paddingRight: 10,
+      paddingTop: 3,
+      paddingLeft: 3,
+      paddingBottom: 3
     },
     playControl: {
       backgroundColor: 'black',
@@ -57,6 +62,10 @@ export default class App extends React.Component {
       position: 'absolute',
       top: 0,
       right: 0
+    },
+    textExpand: {
+      fontSize: 'small',
+      padding: 3
     }
   }
   state = {
@@ -145,8 +154,8 @@ export default class App extends React.Component {
         </div>
         {
           currentImage && (<div style={style.text}>
-            <i onClick={this.textToggle} style={[showText && style.textClose]} className={`fa fa-${showText ? 'close' : 'expand'}`}/>
-            {showText && currentImage.text}
+            <i onClick={this.textToggle} style={showText ? style.textClose : style.textExpand} className={`fa fa-${showText ? 'close' : 'expand'}`}/>
+            {showText && (<div style={style.innerText}>{currentImage.text.replace(/&quot;/g, '"')}</div>)}
           </div>
         )}
         <ImageGallery autoPlay={autoPlay} showThumbnails={showThumbnails} onSlide={this.handleSlide} ref="gallery" items={images}/>
