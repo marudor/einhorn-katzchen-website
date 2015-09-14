@@ -16,18 +16,20 @@ export default class App extends React.Component {
       backgroundColor: 'black',
       border: '1px solid white',
       borderRadius: 5,
-      padding: 5,
       color: 'white',
+      fontSize: 'smaller',
+      maxWidth: '35%',
+      padding: 3,
       position: 'absolute',
-      top: 0,
       right: 0,
+      top: 0,
       zIndex: 5
     },
     playControl: {
       backgroundColor: 'black',
       border: '1px solid white',
       borderRadius: 5,
-      padding: 5,
+      padding: 3,
       color: 'white',
       position: 'absolute',
       top: 50,
@@ -45,10 +47,21 @@ export default class App extends React.Component {
       left: 0,
       position: 'absolute',
       zIndex: 5
+    },
+    leftSide: {
+      '@media (max-width: 768px)': {
+        display: 'none'
+      }
+    },
+    textClose: {
+      position: 'absolute',
+      top: 0,
+      right: 0
     }
   }
   state = {
     autoPlay: false,
+    showText: localStorage.showText ? JSON.parse(localStorage.showText) : true,
     showThumbnails: true
   }
   handleHashChange = () => {
@@ -100,9 +113,17 @@ export default class App extends React.Component {
       gallery.play();
     }
   }
+  textToggle = () => {
+    let { showText } = this.state;
+    showText = !showText;
+    localStorage.showText = JSON.stringify(showText);
+    this.setState({
+      showText
+    });
+  }
   render() {
     const style = App.style;
-    const { showThumbnails, index, autoPlay } = this.state;
+    const { showThumbnails, showText, index, autoPlay } = this.state;
     const currentImage = images[index];
     const paypal = {
       __html: `<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -115,14 +136,17 @@ export default class App extends React.Component {
     return (
       <div style={style.wrapper}>
         <Style rules={AppCss}/>
-        <div style={style.paypal} dangerouslySetInnerHTML={paypal}/>
-        <div style={style.flattr}><div id="flattr"/></div>
-        <div style={style.playControl}>
-          <i onClick={this.handlePlayPause} className={`fa fa-${autoPlay ? 'pause' : 'play'}`}/>
+        <div style={style.leftSide}>
+          <div style={style.paypal} dangerouslySetInnerHTML={paypal}/>
+          <div style={style.flattr}><div id="flattr"/></div>
+          <div style={style.playControl}>
+            <i onClick={this.handlePlayPause} className={`fa fa-${autoPlay ? 'pause' : 'play'}`}/>
+          </div>
         </div>
         {
           currentImage && (<div style={style.text}>
-            {currentImage.text}
+            <i onClick={this.textToggle} style={[showText && style.textClose]} className={`fa fa-${showText ? 'close' : 'expand'}`}/>
+            {showText && currentImage.text}
           </div>
         )}
         <ImageGallery autoPlay={autoPlay} showThumbnails={showThumbnails} onSlide={this.handleSlide} ref="gallery" items={images}/>
