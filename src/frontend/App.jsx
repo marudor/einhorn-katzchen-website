@@ -74,9 +74,11 @@ export default class App extends React.Component {
     showThumbnails: true
   }
   handleHashChange = () => {
-    const number = parseInt(location.hash.replace('#', ''));
-    if (this.refs.gallery) {
-      this.refs.gallery.slideToIndex(number - 1);
+    if (location.hash) {
+      const number = parseInt(location.hash.replace('#', ''));
+      if (this.refs.gallery) {
+        this.refs.gallery.slideToIndex(number - 1);
+      }
     }
   }
   componentDidMount() {
@@ -88,14 +90,24 @@ export default class App extends React.Component {
     } else {
       number = images.length;
     }
+    if (isNaN(number)) {
+      number = images.length;
+    }
     this.refs.gallery.slideToIndex(number - 1);
     flattrFoo();
   }
   handleSlide = index => {
+    if (isNaN(index)) {
+      index = images.length - 1;
+    }
     this.setState({
       index
     });
-    location.hash = index + 1;
+    if (index + 1 === images.length) {
+      history.replaceState({}, document.title, '/');
+    } else {
+      location.hash = index + 1;
+    }
   }
   handleKeyDown = e => {
     const { gallery } = this.refs;
@@ -137,29 +149,29 @@ export default class App extends React.Component {
     const paypal = {
       __html: `<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
       <input type="hidden" name="cmd" value="_s-xclick">
-      <input type="hidden" name="hosted_button_id" value="LU76JGL2T9T2L">
-      <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
-      <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
-      </form>`
-    };
-    return (
-      <div style={style.wrapper}>
-        <Style rules={AppCss}/>
-        <div style={style.leftSide}>
-          <div style={style.paypal} dangerouslySetInnerHTML={paypal}/>
-          <div style={style.flattr}><div id="flattr"/></div>
-          <div style={style.playControl}>
-            <i onClick={this.handlePlayPause} className={`fa fa-${autoPlay ? 'pause' : 'play'}`}/>
-          </div>
-        </div>
-        {
-          currentImage && (<div style={style.text}>
-            <i onClick={this.textToggle} style={showText ? style.textClose : style.textExpand} className={`fa fa-${showText ? 'close' : 'expand'}`}/>
-            {showText && (<div style={style.innerText}>{currentImage.text.replace(/&quot;/g, '"')}</div>)}
-          </div>
-        )}
-        <ImageGallery autoPlay={autoPlay} showThumbnails={showThumbnails} onSlide={this.handleSlide} ref="gallery" items={images}/>
-      </div>
-    );
-  }
-}
+        <input type="hidden" name="hosted_button_id" value="LU76JGL2T9T2L">
+          <input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+            <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+            </form>`
+          };
+          return (
+            <div style={style.wrapper}>
+              <Style rules={AppCss}/>
+              <div style={style.leftSide}>
+                <div style={style.paypal} dangerouslySetInnerHTML={paypal}/>
+                <div style={style.flattr}><div id="flattr"/></div>
+                <div style={style.playControl}>
+                  <i onClick={this.handlePlayPause} className={`fa fa-${autoPlay ? 'pause' : 'play'}`}/>
+                </div>
+              </div>
+              {
+                currentImage && (<div style={style.text}>
+                  <i onClick={this.textToggle} style={showText ? style.textClose : style.textExpand} className={`fa fa-${showText ? 'close' : 'expand'}`}/>
+                  {showText && (<div style={style.innerText}>{currentImage.text.replace(/&quot;/g, '"')}</div>)}
+                </div>
+              )}
+              <ImageGallery autoPlay={autoPlay} showThumbnails={showThumbnails} onSlide={this.handleSlide} ref="gallery" items={images}/>
+            </div>
+          );
+        }
+      }
