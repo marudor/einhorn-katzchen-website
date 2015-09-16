@@ -37,20 +37,8 @@ export default class App extends React.Component {
       padding: 3,
       color: 'white',
       position: 'absolute',
-      top: 25,
-      left: 0,
-      zIndex: 5
-    },
-    paypal: {
       top: 0,
       left: 0,
-      position: 'absolute',
-      zIndex: 5
-    },
-    flattr: {
-      top: 0,
-      left: 0,
-      position: 'absolute',
       zIndex: 5
     },
     leftSide: {
@@ -94,7 +82,6 @@ export default class App extends React.Component {
       number = images.length;
     }
     this.refs.gallery.slideToIndex(number - 1);
-    flattrFoo();
   }
   handleSlide = index => {
     if (isNaN(index)) {
@@ -150,7 +137,6 @@ export default class App extends React.Component {
       <div style={style.wrapper}>
         <Style rules={AppCss}/>
         <div style={style.leftSide}>
-          <div style={style.flattr}><div id="flattr"/></div>
           <div style={style.playControl}>
             <i onClick={this.handlePlayPause} className={`fa fa-${autoPlay ? 'pause' : 'play'}`}/>
           </div>
