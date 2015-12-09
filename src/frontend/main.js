@@ -1,5 +1,6 @@
 import App from './App.jsx';
+import ReactDOM from 'react-dom';
 import React from 'react';
 
 const container = document.querySelector('#main');
-React.render(<App/>, container);
+ReactDOM.render(<App/>, container);
